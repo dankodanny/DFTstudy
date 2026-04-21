@@ -29,12 +29,17 @@ import matplotlib.pyplot as plt
 
 try:
     from pyscf import gto, scf, dft, lib
-    from pyscf.geomopt import geometric_solver
     PYSCF_AVAILABLE = True
 except ImportError:
     PYSCF_AVAILABLE = False
     print("PySCF not installed. Install with: pip install pyscf")
     print("Running in demo mode with pre-computed results.")
+
+try:
+    from pyscf.geomopt import geometric_solver
+    GEOMETRIC_AVAILABLE = True
+except ImportError:
+    GEOMETRIC_AVAILABLE = False
 
 
 # ==========================================================================
@@ -285,6 +290,12 @@ def geometry_optimization():
         print("\n[PySCF not available - showing expected results]")
         print("Optimized O-H bond length ≈ 0.969 Angstrom")
         print("Optimized H-O-H angle ≈ 103.6 degrees")
+        return
+
+    if not GEOMETRIC_AVAILABLE:
+        print("\n[geomeTRIC package not installed - skipping geometry optimization]")
+        print("Install with: pip install geometric")
+        print("Expected: O-H ≈ 0.969 A, H-O-H ≈ 103.6 deg")
         return
 
     # Initial (slightly distorted) geometry

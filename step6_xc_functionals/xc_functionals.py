@@ -212,7 +212,7 @@ def plot_jacobs_ladder():
 
     # Ladder rungs
     rungs = [
-        (0, 'Earth: Hartree\n(no XC)', '#gray', 'No XC, enormous errors'),
+        (0, 'Earth: Hartree\n(no XC)', 'gray', 'No XC, enormous errors'),
         (1, 'Rung 1: LDA\n(rho)', '#2196F3', 'Local density only\nEx: SVWN, SPW92'),
         (2, 'Rung 2: GGA\n(rho, |grad rho|)', '#4CAF50', 'Adds density gradient\nEx: PBE, BLYP, PW91'),
         (3, 'Rung 3: Meta-GGA\n(rho, |grad rho|, tau)', '#FF9800',
