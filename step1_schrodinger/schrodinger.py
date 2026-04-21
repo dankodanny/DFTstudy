@@ -31,7 +31,10 @@ These validate our numerical methods before tackling harder problems.
 ==============================================================================
 """
 
+import os
 import numpy as np
+
+_DIR = os.path.dirname(os.path.abspath(__file__))
 import matplotlib.pyplot as plt
 from scipy.linalg import eigh
 
@@ -105,7 +108,7 @@ def solve_particle_in_box(L=1.0, N=100):
     # Normalize wavefunctions (they come out normalized in discrete sense,
     # but let's be explicit)
     for i in range(wavefunctions.shape[1]):
-        norm = np.sqrt(np.trapz(wavefunctions[:, i]**2, x))
+        norm = np.sqrt(np.trapezoid(wavefunctions[:, i]**2, x))
         wavefunctions[:, i] /= norm
 
     return x, energies, wavefunctions
@@ -154,7 +157,7 @@ def plot_particle_in_box():
     ax.legend()
 
     plt.tight_layout()
-    plt.savefig('step1_schrodinger/particle_in_box.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'particle_in_box.png'), dpi=150)
     plt.show()
 
     # Print comparison
@@ -247,7 +250,7 @@ def plot_harmonic_oscillator():
     ax.legend()
 
     plt.tight_layout()
-    plt.savefig('step1_schrodinger/harmonic_oscillator.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'harmonic_oscillator.png'), dpi=150)
     plt.show()
 
     print("=" * 60)
@@ -383,7 +386,7 @@ def plot_hydrogen_atom():
     ax.set_title('H atom: o=numerical, x=exact')
 
     plt.tight_layout()
-    plt.savefig('step1_schrodinger/hydrogen_atom.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'hydrogen_atom.png'), dpi=150)
     plt.show()
 
 

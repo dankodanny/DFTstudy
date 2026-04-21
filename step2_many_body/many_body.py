@@ -34,7 +34,10 @@ THE FUNDAMENTAL PROBLEM:
 ==============================================================================
 """
 
+import os
 import numpy as np
+
+_DIR = os.path.dirname(os.path.abspath(__file__))
 import matplotlib.pyplot as plt
 from scipy.linalg import eigh
 from itertools import combinations
@@ -188,7 +191,7 @@ def visualize_correlation():
     plt.suptitle('Two Electrons in a Box: Effect of Electron-Electron Repulsion',
                  fontsize=14, y=1.02)
     plt.tight_layout()
-    plt.savefig('step2_many_body/electron_correlation.png', dpi=150, bbox_inches='tight')
+    plt.savefig(os.path.join(_DIR, 'electron_correlation.png'), dpi=150, bbox_inches='tight')
     plt.show()
 
     print("""
@@ -279,7 +282,7 @@ def born_oppenheimer_demo():
     ax.set_xlim(0.5, 10)
 
     plt.tight_layout()
-    plt.savefig('step2_many_body/born_oppenheimer_h2plus.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'born_oppenheimer_h2plus.png'), dpi=150)
     plt.show()
 
     print(f"\nEquilibrium bond length: R_eq = {R_eq:.2f} bohr")
@@ -328,12 +331,12 @@ def density_preview():
         axes[idx].fill_between(x, rho, alpha=0.3)
         axes[idx].set_xlabel('x (bohr)')
         axes[idx].set_ylabel('rho(x)')
-        axes[idx].set_title(f'{label}\nTotal electrons = {np.trapz(rho, x):.3f}')
+        axes[idx].set_title(f'{label}\nTotal electrons = {np.trapezoid(rho, x):.3f}')
 
     plt.suptitle('Electron Density: From Wavefunction to Density',
                  fontsize=14, y=1.02)
     plt.tight_layout()
-    plt.savefig('step2_many_body/electron_density_preview.png', dpi=150, bbox_inches='tight')
+    plt.savefig(os.path.join(_DIR, 'electron_density_preview.png'), dpi=150, bbox_inches='tight')
     plt.show()
 
     print("""

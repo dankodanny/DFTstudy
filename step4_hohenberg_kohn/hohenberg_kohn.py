@@ -43,7 +43,10 @@ THE PROBLEM:
 ==============================================================================
 """
 
+import os
 import numpy as np
+
+_DIR = os.path.dirname(os.path.abspath(__file__))
 import matplotlib.pyplot as plt
 from scipy.linalg import eigh
 from scipy.optimize import minimize
@@ -105,7 +108,7 @@ def demonstrate_hk_theorem1():
 
         # Normalize ground state
         psi_0 = psi[:, 0]
-        psi_0 /= np.sqrt(np.trapz(psi_0**2, x))
+        psi_0 /= np.sqrt(np.trapezoid(psi_0**2, x))
 
         # Density for 2 electrons
         rho = 2 * psi_0**2
@@ -117,7 +120,7 @@ def demonstrate_hk_theorem1():
     ax.legend()
 
     plt.tight_layout()
-    plt.savefig('step4_hohenberg_kohn/hk_theorem1.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'hk_theorem1.png'), dpi=150)
     plt.show()
 
     print("""
@@ -167,7 +170,7 @@ def demonstrate_hk_theorem2():
 
     # Exact ground state
     psi_0 = psi[:, 0]
-    psi_0 /= np.sqrt(np.trapz(psi_0**2, x))
+    psi_0 /= np.sqrt(np.trapezoid(psi_0**2, x))
     rho_exact = 2 * psi_0**2
     E_exact = 2 * energies[0]
 
@@ -184,14 +187,14 @@ def demonstrate_hk_theorem2():
         rho_trial = 2 * np.exp(-x**2 / (2 * sigma**2)) / (sigma * np.sqrt(2 * np.pi))
 
         # External potential energy (exact functional)
-        E_ext = np.trapz(V_ext * rho_trial, x)
+        E_ext = np.trapezoid(V_ext * rho_trial, x)
 
         # Kinetic energy (use von Weizsacker approximation for 2-electron system):
         # T_vW[rho] = 1/8 * integral |nabla rho|^2 / rho dx
         drho = np.gradient(rho_trial, dx)
         # Avoid division by zero
         safe_rho = np.maximum(rho_trial, 1e-20)
-        T_vW = (1.0 / 8.0) * np.trapz(drho**2 / safe_rho, x)
+        T_vW = (1.0 / 8.0) * np.trapezoid(drho**2 / safe_rho, x)
 
         E_trial = T_vW + E_ext
         E_trials.append(E_trial)
@@ -227,7 +230,7 @@ def demonstrate_hk_theorem2():
                 arrowprops=dict(arrowstyle='->'), fontsize=11)
 
     plt.tight_layout()
-    plt.savefig('step4_hohenberg_kohn/hk_theorem2.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'hk_theorem2.png'), dpi=150)
     plt.show()
 
     print(f"\n  Exact ground-state energy: {E_exact:.6f} hartree")
@@ -330,7 +333,7 @@ def energy_functional_decomposition():
                 f'{val:.1f} Ha', va='center', fontsize=11, fontweight='bold')
 
     plt.tight_layout()
-    plt.savefig('step4_hohenberg_kohn/energy_decomposition.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'energy_decomposition.png'), dpi=150)
     plt.show()
 
     print("""
@@ -383,15 +386,15 @@ def v_representability_demo():
     rho_valid = 2 * np.exp(-x**2) / np.sqrt(np.pi)
     axes[0, 0].plot(x, rho_valid, 'b-', linewidth=2)
     axes[0, 0].fill_between(x, rho_valid, alpha=0.3)
-    axes[0, 0].set_title(f'Valid: Gaussian\nN = {np.trapz(rho_valid, x):.2f}')
+    axes[0, 0].set_title(f'Valid: Gaussian\nN = {np.trapezoid(rho_valid, x):.2f}')
     axes[0, 0].set_ylabel('rho(x)')
 
     # Valid density: bimodal (ground state of double well)
     rho_bimodal = np.exp(-(x-2)**2) + np.exp(-(x+2)**2)
-    rho_bimodal *= 2.0 / np.trapz(rho_bimodal, x)  # normalize to N=2
+    rho_bimodal *= 2.0 / np.trapezoid(rho_bimodal, x)  # normalize to N=2
     axes[0, 1].plot(x, rho_bimodal, 'b-', linewidth=2)
     axes[0, 1].fill_between(x, rho_bimodal, alpha=0.3)
-    axes[0, 1].set_title(f'Valid: Bimodal\nN = {np.trapz(rho_bimodal, x):.2f}')
+    axes[0, 1].set_title(f'Valid: Bimodal\nN = {np.trapezoid(rho_bimodal, x):.2f}')
 
     # Invalid: negative density
     rho_negative = 2 * np.exp(-x**2) / np.sqrt(np.pi) - 0.3 * np.exp(-(x-1)**2)
@@ -409,14 +412,14 @@ def v_representability_demo():
     rho_discontinuous = np.where(np.abs(x) < 3, 1.0/3.0, 0.0)
     axes[1, 1].plot(x, rho_discontinuous, 'r-', linewidth=2)
     axes[1, 1].fill_between(x, rho_discontinuous, alpha=0.3, color='red')
-    axes[1, 1].set_title(f'Problematic: Discontinuous\nN = {np.trapz(rho_discontinuous, x):.2f}')
+    axes[1, 1].set_title(f'Problematic: Discontinuous\nN = {np.trapezoid(rho_discontinuous, x):.2f}')
 
     for ax in axes.flat:
         ax.set_xlabel('x (bohr)')
 
     plt.suptitle('Density Constraints for DFT', fontsize=14)
     plt.tight_layout()
-    plt.savefig('step4_hohenberg_kohn/v_representability.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'v_representability.png'), dpi=150)
     plt.show()
 
     print("""

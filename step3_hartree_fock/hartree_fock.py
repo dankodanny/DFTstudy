@@ -51,7 +51,10 @@ TOTAL ENERGY:
 ==============================================================================
 """
 
+import os
 import numpy as np
+
+_DIR = os.path.dirname(os.path.abspath(__file__))
 from scipy.linalg import eigh
 import matplotlib.pyplot as plt
 
@@ -328,7 +331,7 @@ def demo_helium_1d():
     ax.set_ylabel('rho(x)')
     ax.set_title('Electron Density')
     ax.legend()
-    ax.text(0.95, 0.95, f'N_elec = {np.trapz(rho_hf, hf.x):.3f}',
+    ax.text(0.95, 0.95, f'N_elec = {np.trapezoid(rho_hf, hf.x):.3f}',
             transform=ax.transAxes, ha='right', va='top')
 
     # 4. Potential landscape
@@ -349,7 +352,7 @@ def demo_helium_1d():
 
     plt.suptitle('1D Hartree-Fock: Helium Model', fontsize=14)
     plt.tight_layout()
-    plt.savefig('step3_hartree_fock/hf_helium_1d.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'hf_helium_1d.png'), dpi=150)
     plt.show()
 
     print(f"\nHF total energy: {E_hf:.6f} hartree")
@@ -396,7 +399,7 @@ def demo_scf_components():
     ax.set_ylim(-5, 3)
 
     plt.tight_layout()
-    plt.savefig('step3_hartree_fock/fock_components.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'fock_components.png'), dpi=150)
     plt.show()
 
     print("""

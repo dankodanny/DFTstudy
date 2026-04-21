@@ -34,7 +34,10 @@ EXCHANGE vs CORRELATION:
 ==============================================================================
 """
 
+import os
 import numpy as np
+
+_DIR = os.path.dirname(os.path.abspath(__file__))
 import matplotlib.pyplot as plt
 
 
@@ -255,7 +258,7 @@ def plot_jacobs_ladder():
     ax.set_title("Jacob's Ladder of DFT Functionals", fontsize=16, fontweight='bold')
 
     plt.tight_layout()
-    plt.savefig('step6_xc_functionals/jacobs_ladder.png', dpi=150, bbox_inches='tight')
+    plt.savefig(os.path.join(_DIR, 'jacobs_ladder.png'), dpi=150, bbox_inches='tight')
     plt.show()
 
 
@@ -280,7 +283,7 @@ def plot_lda_exchange():
     ax.set_title('LDA Exchange Potential')
 
     plt.tight_layout()
-    plt.savefig('step6_xc_functionals/lda_exchange.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'lda_exchange.png'), dpi=150)
     plt.show()
 
 
@@ -322,7 +325,7 @@ def plot_pbe_enhancement():
     ax.set_ylim(0.8, 3.0)
 
     plt.tight_layout()
-    plt.savefig('step6_xc_functionals/pbe_enhancement.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'pbe_enhancement.png'), dpi=150)
     plt.show()
 
     print("""
@@ -364,7 +367,7 @@ def plot_correlation_energy():
     ax.set_ylim(0, 20)
 
     plt.tight_layout()
-    plt.savefig('step6_xc_functionals/correlation_vs_exchange.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'correlation_vs_exchange.png'), dpi=150)
     plt.show()
 
     print("""

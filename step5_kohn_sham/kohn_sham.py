@@ -43,7 +43,10 @@ using only NumPy/SciPy.
 ==============================================================================
 """
 
+import os
 import numpy as np
+
+_DIR = os.path.dirname(os.path.abspath(__file__))
 from scipy.linalg import eigh
 import matplotlib.pyplot as plt
 
@@ -133,7 +136,7 @@ class KohnShamDFT1D:
     def compute_hartree_energy(self, rho):
         """E_H = 1/2 integral integral rho(r)*rho(r')/|r-r'| dr dr'"""
         V_H = self.compute_hartree_potential(rho)
-        return 0.5 * np.trapz(rho * V_H, self.x)
+        return 0.5 * np.trapezoid(rho * V_H, self.x)
 
     # ------------------------------------------------------------------
     # LDA Exchange-Correlation (the simplest approximation)
@@ -201,7 +204,7 @@ class KohnShamDFT1D:
 
         e_xc = e_x + e_c
         V_xc = V_x + V_c
-        E_xc = np.trapz(rho * e_xc, self.x)
+        E_xc = np.trapezoid(rho * e_xc, self.x)
 
         return E_xc, V_xc
 
@@ -223,7 +226,7 @@ class KohnShamDFT1D:
 
         # XC energy and potential
         E_xc, V_xc = self.compute_xc(rho)
-        E_vxc = np.trapz(rho * V_xc, self.x)
+        E_vxc = np.trapezoid(rho * V_xc, self.x)
 
         E_total = E_band - E_H + E_xc - E_vxc + self.V_nn
 
@@ -291,7 +294,7 @@ class KohnShamDFT1D:
 
             # Density mixing
             rho_mixed = mixing * rho_new + (1.0 - mixing) * rho
-            drho = np.sqrt(np.trapz((rho_mixed - rho)**2, self.x))
+            drho = np.sqrt(np.trapezoid((rho_mixed - rho)**2, self.x))
 
             rho = rho_mixed
 
@@ -390,7 +393,7 @@ def demo_helium_atom():
     ax.fill_between(dft.x, dft.rho, alpha=0.3)
     ax.set_xlabel('x (bohr)')
     ax.set_ylabel('rho(x)')
-    ax.set_title(f'Electron Density (N={np.trapz(dft.rho, dft.x):.3f})')
+    ax.set_title(f'Electron Density (N={np.trapezoid(dft.rho, dft.x):.3f})')
 
     # 4. Potentials
     ax = axes[1, 1]
@@ -410,7 +413,7 @@ def demo_helium_atom():
 
     plt.suptitle(f'Kohn-Sham DFT: 1D Helium (E = {E:.6f} Ha)', fontsize=14)
     plt.tight_layout()
-    plt.savefig('step5_kohn_sham/ks_helium.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'ks_helium.png'), dpi=150)
     plt.show()
 
 
@@ -469,7 +472,7 @@ def demo_h2_molecule():
 
     plt.suptitle('Kohn-Sham DFT: H2 Molecule', fontsize=14)
     plt.tight_layout()
-    plt.savefig('step5_kohn_sham/ks_h2_molecule.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'ks_h2_molecule.png'), dpi=150)
     plt.show()
 
     print(f"\nEquilibrium bond length: {R_eq:.2f} bohr")
@@ -509,7 +512,7 @@ def demo_scf_visualization():
     ax.set_title('Energy Convergence')
 
     plt.tight_layout()
-    plt.savefig('step5_kohn_sham/scf_convergence.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'scf_convergence.png'), dpi=150)
     plt.show()
 
 

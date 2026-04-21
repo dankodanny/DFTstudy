@@ -24,7 +24,10 @@ In this step we will:
 ==============================================================================
 """
 
+import os
 import numpy as np
+
+_DIR = os.path.dirname(os.path.abspath(__file__))
 import matplotlib.pyplot as plt
 
 try:
@@ -195,7 +198,7 @@ def compare_functionals():
     ax.tick_params(axis='x', rotation=45)
 
     plt.tight_layout()
-    plt.savefig('step8_pyscf_examples/functional_comparison.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'functional_comparison.png'), dpi=150)
     plt.show()
 
     print("""
@@ -272,7 +275,7 @@ def basis_set_convergence():
         ax.legend()
 
         plt.tight_layout()
-        plt.savefig('step8_pyscf_examples/basis_convergence.png', dpi=150)
+        plt.savefig(os.path.join(_DIR, 'basis_convergence.png'), dpi=150)
         plt.show()
 
 
@@ -406,7 +409,7 @@ def potential_energy_surface():
     ax.axhline(y=0, color='black', linewidth=0.5)
 
     plt.tight_layout()
-    plt.savefig('step8_pyscf_examples/h2_pes.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'h2_pes.png'), dpi=150)
     plt.show()
 
     # Find equilibrium for each

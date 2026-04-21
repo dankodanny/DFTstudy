@@ -46,7 +46,10 @@ COMMON BASIS SET FAMILIES:
 ==============================================================================
 """
 
+import os
 import numpy as np
+
+_DIR = os.path.dirname(os.path.abspath(__file__))
 import matplotlib.pyplot as plt
 from scipy.special import factorial2
 
@@ -120,7 +123,7 @@ def compare_sto_gto():
     ax.set_xlim(0, 7)
 
     plt.tight_layout()
-    plt.savefig('step7_basis_sets/sto_vs_gto.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'sto_vs_gto.png'), dpi=150)
     plt.show()
 
     print("""
@@ -224,7 +227,7 @@ def demonstrate_basis_convergence():
     ax.legend()
 
     plt.tight_layout()
-    plt.savefig('step7_basis_sets/basis_convergence.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'basis_convergence.png'), dpi=150)
     plt.show()
 
     print(f"\n{'N_basis':>8} {'Energy':>15} {'Error':>15}")
@@ -278,7 +281,7 @@ def demonstrate_basis_set_hierarchy():
                 str(n), va='center', fontweight='bold')
 
     plt.tight_layout()
-    plt.savefig('step7_basis_sets/basis_hierarchy.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'basis_hierarchy.png'), dpi=150)
     plt.show()
 
     print("""
@@ -369,7 +372,7 @@ def gaussian_integral_tutorial():
     ax.set_title('Overlap Integral vs Distance')
 
     plt.tight_layout()
-    plt.savefig('step7_basis_sets/gaussian_product.png', dpi=150)
+    plt.savefig(os.path.join(_DIR, 'gaussian_product.png'), dpi=150)
     plt.show()
 
     print("""
